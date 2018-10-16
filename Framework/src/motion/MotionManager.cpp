@@ -325,7 +325,7 @@ void MotionManager::Process()
     {
         static struct timespec next_time;
         clock_gettime(CLOCK_MONOTONIC,&next_time);
-        current_time = next_time.tv_sec * 1000 + next_time.tv_nsec / 1000000.0 // convert to ms
+        double current_time = next_time.tv_sec * 1000 + next_time.tv_nsec / 1000000.0; // convert to ms
         for(int id = 1; id < JointData::NUMBER_OF_JOINTS; id++)
             m_LogFileStream << MotionStatus::m_CurrentJoints.GetValue(id) << ","
              << m_CM730->m_BulkReadData[id].ReadWord(MX28::P_PRESENT_POSITION_L) << ","
