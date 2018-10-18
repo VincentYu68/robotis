@@ -117,6 +117,7 @@ int main()
 	while(num_steps < max_steps)
 	{
 	    double cur_shoulder_pitch_angle, cur_shoulder_row_angle, cur_elbow_angle;
+	    double goals[3];
 
 		if(cm730.ReadWord(JointData::ID_L_SHOULDER_PITCH, MX28::P_PRESENT_POSITION_L, &value, 0) == CM730::SUCCESS)
 		{
@@ -130,7 +131,8 @@ int main()
                 return 1;
             }
 
-		    printf("Goal of pitch %d \n", goal);
+		    //printf("Goal of pitch %d \n", goal);
+		    goals[0] = goal;
 			cm730.WriteWord(JointData::ID_L_SHOULDER_PITCH, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
 		else {
@@ -150,7 +152,8 @@ int main()
                 return 1;
             }
 
-		    printf("Goal of roll %d \n", goal);
+		    //printf("Goal of roll %d \n", goal);
+		    goals[1] = goals;
 			cm730.WriteWord(JointData::ID_L_SHOULDER_ROLL, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
 		else {
@@ -170,7 +173,8 @@ int main()
                 return 1;
             }
 
-		    printf("Goal of elbow %d \n", goal);
+		    //printf("Goal of elbow %d \n", goal);
+		    goals[2] = goal;
 			cm730.WriteWord(JointData::ID_L_ELBOW, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
 		else {
@@ -178,7 +182,12 @@ int main()
 			return 1;
 		}
 
-		fileStream << angle2rad(cur_shoulder_pitch_angle) << " " << angle2rad(cur_shoulder_row_angle) << " " << angle2rad(cur_elbow_angle) << std::endl;
+        static struct timespec next_time;
+        clock_gettime(CLOCK_MONOTONIC,&next_time);
+        int current_time = next_time.tv_sec * 1000 + next_time.tv_nsec / 1000000.0; // convert to ms
+
+		fileStream << angle2rad(cur_shoulder_pitch_angle) << " " << angle2rad(cur_shoulder_row_angle) << " " << angle2rad(cur_elbow_angle)
+		           << goals[0] << " " << goals[1] << " " << goals[2] << " " << current_time << std::endl;
 
 		num_steps ++;
 
