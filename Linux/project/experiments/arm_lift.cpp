@@ -31,33 +31,54 @@ int main()
 	/////////////////////////////////////////////////////////////////////
 
     ///////////////////// Initialize the Pose of Darwin /////////////////
-    double init_pose_angle[] = {0.72186818,  0.30717795, -0.51605895, -0.84473936,
-       -0.31178562,  0.51145128,  0.        ,  0.        ,  0.        ,
-        0.00614356,  0.68      , -0.88      , -0.5237384 , -0.01382301,
-        0.        , -0.00614356, -0.68      ,  0.88      ,  0.5237384 ,
-        0.01382301};
+    double init_pose_angle[] = {-0.84473936, 0.72186818, -0.31178562, 0.30717795, 0.51145128, -0.51605895,
+                             0., 0., -0.00614356, 0.00614356, -0.68, 0.68, 0.88, -0.88, 0.5237384,-0.5237384, 0.01382301, -0.01382301,
+                             0., 0.};
     int init_pose_value[20];
     for (int i = 0; i < 20; i++) {
         init_pose_value[i] = MX28::Angle2Value(rad2angle(init_pose_angle[i]));
     }
 
+    int starting_value[20];
+    for (int id = JointData::ID_R_SHOULDER_PITCH; id < JointData::NUMBER_OF_JOINTS; id++) {
+        if(cm730.ReadWord(id, MX28::P_PRESENT_POSITION_L, &value, 0) == CM730::SUCCESS)
+		{
+			starting_value[id - JointData::ID_R_SHOULDER_PITCH] = value;
+		}
+		else{
+		    fprintf("Cant read joint %d \n", id);
+		    return 1;
+		}
+    }
+
     for (int i = 0; i < 20; i++)
-        printf("%f,%d\n",init_pose_angle[i], init_pose_value[i]);
+        printf("%f,%d,%d\n",init_pose_angle[i], init_pose_value[i], starting_value[i]);
+
 	int param[JointData::NUMBER_OF_JOINTS * MX28::PARAM_BYTES];
-    int n = 0;
-    int joint_num = 0;
-    for(int id=JointData::ID_R_SHOULDER_PITCH; id<JointData::NUMBER_OF_JOINTS; id++)
-    {
-        param[n++] = id;
 
-        param[n++] = 0;
-        param[n++] = 0;
-        param[n++] = 32;
-        param[n++] = 0;
+    for (int i = 0; i < 200; i++) {
+        int n = 0;
+        int joint_num = 0;
+        for(int id=JointData::ID_R_SHOULDER_PITCH; id<JointData::NUMBER_OF_JOINTS; id++)
+        {
+            int goal_pos = i * 1.0 / 200 * init_pose_value[joint_num] + (200-i) * 1.0 / 200 * starting_value[joint_num];
+            if (goal_pos > 4095 or goal_pos < 0) {
+                fprintf("Goal pose for %d wrong!\n", id)
+                return 1
+            }
+            param[n++] = id;
 
-        param[n++] = CM730::GetLowByte(init_pose_value[joint_num]);
-        param[n++] = CM730::GetHighByte(init_pose_value[joint_num]);
-        joint_num++;
+            param[n++] = 0;
+            param[n++] = 0;
+            param[n++] = 32;
+            param[n++] = 0;
+
+            param[n++] = CM730::GetLowByte(goal_pos);
+            param[n++] = CM730::GetHighByte(goal_pos);
+            joint_num++;
+        }
+
+        usleep(50000);
     }
 
     if(joint_num > 0)
