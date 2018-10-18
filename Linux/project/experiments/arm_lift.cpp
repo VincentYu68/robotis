@@ -8,8 +8,8 @@
 
 using namespace Robot;
 
-bool DEBUG_FIRST true;
-bool DEBUG_SECOND true;
+bool DEBUG_FIRST = true;
+bool DEBUG_SECOND = true;
 
 
 double angle2rad(double angle) {
