@@ -9,7 +9,7 @@
 using namespace Robot;
 
 bool DEBUG_FIRST = false;
-bool DEBUG_SECOND = true;
+bool DEBUG_SECOND = false;
 
 
 double angle2rad(double angle) {
@@ -111,8 +111,8 @@ int main()
 	int init_elbow = init_pose_value[5];
 
 	int goal_shoulder_pitch = 0;
-	int goal_shoulder_row = 2048;
-	int goal_elbow = 4095;
+	int goal_shoulder_row = init_pose_value[3];
+	int goal_elbow = init_pose_value[5] + 512;
 
 	while(num_steps < max_steps)
 	{
