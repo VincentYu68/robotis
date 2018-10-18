@@ -402,16 +402,16 @@ void CM730::MakeBulkReadPacket()
         number++;
     }
 
-//    for(int id = 1; id < JointData::NUMBER_OF_JOINTS; id++)
-//    {
-//        if(MotionStatus::m_CurrentJoints.GetEnable(id))
-//        {
-//            m_BulkReadTxPacket[PARAMETER+3*number+1] = 2;   // length
-//            m_BulkReadTxPacket[PARAMETER+3*number+2] = id;  // id
-//            m_BulkReadTxPacket[PARAMETER+3*number+3] = MX28::P_PRESENT_POSITION_L; // start address
-//            number++;
-//        }
-//    }
+    for(int id = 1; id < JointData::NUMBER_OF_JOINTS; id++)
+    {
+        if(MotionStatus::m_CurrentJoints.GetEnable(id))
+        {
+            m_BulkReadTxPacket[PARAMETER+3*number+1] = 6;   // length
+            m_BulkReadTxPacket[PARAMETER+3*number+2] = id;  // id
+            m_BulkReadTxPacket[PARAMETER+3*number+3] = MX28::P_PRESENT_POSITION_L; // start address
+            number++;
+        }
+    }
 
     if(Ping(FSR::ID_L_FSR, 0) == SUCCESS)
     {

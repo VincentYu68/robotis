@@ -325,14 +325,17 @@ void MotionManager::Process()
     {
         static struct timespec next_time;
         clock_gettime(CLOCK_MONOTONIC,&next_time);
-        double current_time = next_time.tv_sec * 1000 + next_time.tv_nsec / 1000000.0; // convert to ms
-        for(int id = 1; id < JointData::NUMBER_OF_JOINTS; id++)
+        int current_time = next_time.tv_sec * 1000 + next_time.tv_nsec / 1000000.0; // convert to ms
+        int value;
+        for(int id = 1; id < JointData::NUMBER_OF_JOINTS; id++) {
+            //fprintf(stderr, "ID[%d] : %d \n", id, MotionStatus::m_CurrentJoints.GetValue(id));
             m_LogFileStream << MotionStatus::m_CurrentJoints.GetValue(id) << ","
              << m_CM730->m_BulkReadData[id].ReadWord(MX28::P_PRESENT_POSITION_L) << ","
              << m_CM730->m_BulkReadData[id].ReadWord(MX28::P_GOAL_POSITION_L) << ","
              << m_CM730->m_BulkReadData[id].ReadWord(MX28::P_PRESENT_SPEED_L) << ","
              << m_CM730->m_BulkReadData[id].ReadWord(MX28::P_PRESENT_LOAD_L) << ","
              << current_time << ",";
+        }
 
         m_LogFileStream << m_CM730->m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_Y_L) << ",";
         m_LogFileStream << m_CM730->m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_X_L) << ",";
