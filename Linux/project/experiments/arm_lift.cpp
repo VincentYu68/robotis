@@ -122,6 +122,9 @@ int main()
 		{
 		    cur_shoulder_pitch_angle = MX28::Value2Angle(value);
 		    int goal = (num_steps * 1.0 / interp_steps) * goal_shoulder_pitch + (interp_steps - num_steps) * 1.0 / interp_steps * init_shoulder_pitch;
+		    if (num_steps >= interp_steps) {
+		        goal = goal_shoulder_pitch;
+		    }
 		    if (goal > 4095 or goal < 0) {
                 printf("Goal pose for pitch wrong! %d, %d \n", goal_shoulder_pitch, init_shoulder_pitch);
                 return 1;
@@ -139,6 +142,9 @@ int main()
 		{
 		    cur_shoulder_row_angle = MX28::Value2Angle(value);
 		    int goal = (num_steps * 1.0 / interp_steps) * goal_shoulder_row + (interp_steps - num_steps) * 1.0 / interp_steps * init_shoulder_row;
+		    if (num_steps >= interp_steps) {
+		        goal = goal_shoulder_row;
+		    }
 		    if (goal > 4095 or goal < 0) {
                 printf("Goal pose for roll wrong! %d, %d \n", goal_shoulder_row, init_shoulder_row);
                 return 1;
@@ -156,6 +162,9 @@ int main()
 		{
 		    cur_elbow_angle = MX28::Value2Angle(value);
 		    int goal = (num_steps * 1.0 / interp_steps) * goal_elbow + (interp_steps - num_steps) * 1.0 / interp_steps * init_elbow;
+		    if (num_steps >= interp_steps) {
+		        goal = goal_shoulder_row;
+		    }
 		    if (goal > 3100 or goal < 1300) {
                 printf("Goal pose for elbow wrong! %d, %d \n", goal_elbow, init_elbow);
                 return 1;
