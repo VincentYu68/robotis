@@ -122,6 +122,11 @@ int main()
 		{
 		    cur_shoulder_pitch_angle = MX28::Value2Angle(value);
 		    int goal = (num_steps * 1.0 / interp_steps) * goal_shoulder_pitch + (interp_steps - num_steps) * 1.0 / interp_steps * init_shoulder_pitch;
+		    if (goal > 4095 or goal < 0) {
+                printf("Goal pose for pitch wrong! %d, %d \n", goal_shoulder_pitch, init_shoulder_pitch);
+                return 1;
+            }
+
 		    printf("Goal of pitch %d \n", goal);
 			cm730.WriteWord(JointData::ID_L_SHOULDER_PITCH, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
@@ -134,6 +139,11 @@ int main()
 		{
 		    cur_shoulder_row_angle = MX28::Value2Angle(value);
 		    int goal = (num_steps * 1.0 / interp_steps) * goal_shoulder_row + (interp_steps - num_steps) * 1.0 / interp_steps * init_shoulder_row;
+		    if (goal > 4095 or goal < 0) {
+                printf("Goal pose for roll wrong! %d, %d \n", goal_shoulder_row, init_shoulder_row);
+                return 1;
+            }
+
 		    printf("Goal of roll %d \n", goal);
 			cm730.WriteWord(JointData::ID_L_SHOULDER_ROLL, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
@@ -146,6 +156,11 @@ int main()
 		{
 		    cur_elbow_angle = MX28::Value2Angle(value);
 		    int goal = (num_steps * 1.0 / interp_steps) * goal_elbow + (interp_steps - num_steps) * 1.0 / interp_steps * init_elbow;
+		    if (goal > 4095 or goal < 0) {
+                printf("Goal pose for elbow wrong! %d, %d \n", goal_elbow, init_elbow);
+                return 1;
+            }
+
 		    printf("Goal of elbow %d \n", goal);
 			cm730.WriteWord(JointData::ID_L_ELBOW, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
