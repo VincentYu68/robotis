@@ -8,7 +8,7 @@
 
 using namespace Robot;
 
-bool DEBUG_FIRST = true;
+bool DEBUG_FIRST = false;
 bool DEBUG_SECOND = true;
 
 
@@ -106,9 +106,9 @@ int main()
 	int max_steps = 200;
 	int interp_steps = 100; // at which step should reach the goal
 
-	int init_shoulder_pitch = 2048;
-	int init_shoulder_row = 2048;
-	int init_elbow = 2048;
+	int init_shoulder_pitch = init_pose_value[1];
+	int init_shoulder_row = init_pose_value[3];
+	int init_elbow = init_pose_value[5];
 
 	int goal_shoulder_pitch = 0;
 	int goal_shoulder_row = 2048;
@@ -122,6 +122,7 @@ int main()
 		{
 		    cur_shoulder_pitch_angle = MX28::Value2Angle(value);
 		    int goal = (num_steps * 1.0 / interp_steps) * goal_shoulder_pitch + (interp_steps - num_steps) * 1.0 / interp_steps * init_shoulder_pitch;
+		    printf("Goal of pitch %d \n", goal)
 			cm730.WriteWord(JointData::ID_L_SHOULDER_PITCH, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
 		else
@@ -132,6 +133,7 @@ int main()
 		{
 		    cur_shoulder_row_angle = MX28::Value2Angle(value);
 		    int goal = (num_steps * 1.0 / interp_steps) * goal_shoulder_row + (interp_steps - num_steps) * 1.0 / interp_steps * init_shoulder_row;
+		    printf("Goal of roll %d \n", goal)
 			cm730.WriteWord(JointData::ID_L_SHOULDER_ROLL, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
 		else
@@ -142,6 +144,7 @@ int main()
 		{
 		    cur_elbow_angle = MX28::Value2Angle(value);
 		    int goal = (num_steps * 1.0 / interp_steps) * goal_elbow + (interp_steps - num_steps) * 1.0 / interp_steps * init_elbow;
+		    printf("Goal of elbow %d \n", goal)
 			cm730.WriteWord(JointData::ID_L_ELBOW, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
 		else
