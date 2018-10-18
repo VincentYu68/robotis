@@ -8,6 +8,10 @@
 
 using namespace Robot;
 
+bool DEBUG_FIRST true;
+bool DEBUG_SECOND true;
+
+
 double angle2rad(double angle) {
     return angle / 180 * 3.141592653589;
 }
@@ -54,7 +58,8 @@ int main()
 
     for (int i = 0; i < 20; i++)
         printf("%f,%d,%d\n",init_pose_angle[i], init_pose_value[i], starting_value[i]);
-
+    if (DEBUG_FIRST)
+        return 0;
 	int param[JointData::NUMBER_OF_JOINTS * MX28::PARAM_BYTES];
 
     for (int i = 0; i < 200; i++) {
@@ -64,8 +69,8 @@ int main()
         {
             int goal_pos = i * 1.0 / 200 * init_pose_value[joint_num] + (200-i) * 1.0 / 200 * starting_value[joint_num];
             if (goal_pos > 4095 or goal_pos < 0) {
-                printf("Goal pose for %d wrong!\n", id)
-                return 1
+                printf("Goal pose for %d wrong!\n", id);
+                return 1;
             }
             param[n++] = id;
 
@@ -80,10 +85,13 @@ int main()
         }
 
         usleep(50000);
+
+        if(joint_num > 0)
+            cm730.SyncWrite(MX28::P_D_GAIN, MX28::PARAM_BYTES, joint_num, param);
     }
 
-    if(joint_num > 0)
-        cm730.SyncWrite(MX28::P_D_GAIN, MX28::PARAM_BYTES, joint_num, param);
+    if (DEBUG_SECOND)
+        return 0;
     ///////////////////////////////////////////////////////////////////////
 
 
