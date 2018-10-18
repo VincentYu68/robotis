@@ -41,12 +41,13 @@ int main()
 
     int starting_value[20];
     for (int id = JointData::ID_R_SHOULDER_PITCH; id < JointData::NUMBER_OF_JOINTS; id++) {
+        int value;
         if(cm730.ReadWord(id, MX28::P_PRESENT_POSITION_L, &value, 0) == CM730::SUCCESS)
 		{
 			starting_value[id - JointData::ID_R_SHOULDER_PITCH] = value;
 		}
 		else{
-		    fprintf("Cant read joint %d \n", id);
+		    printf("Cant read joint %d \n", id);
 		    return 1;
 		}
     }
@@ -63,7 +64,7 @@ int main()
         {
             int goal_pos = i * 1.0 / 200 * init_pose_value[joint_num] + (200-i) * 1.0 / 200 * starting_value[joint_num];
             if (goal_pos > 4095 or goal_pos < 0) {
-                fprintf("Goal pose for %d wrong!\n", id)
+                printf("Goal pose for %d wrong!\n", id)
                 return 1
             }
             param[n++] = id;
