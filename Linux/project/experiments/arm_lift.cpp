@@ -20,6 +20,8 @@ double rad2angle(double rad) {
     return rad / 3.141592653589 * 180;
 }
 
+
+
 int main()
 {
 	printf( "\n===== Test DARwIn Armlifting =====\n\n");
@@ -103,7 +105,7 @@ int main()
 	int value;
 
 	int num_steps = 0;
-	int max_steps = 200;
+	int max_steps = 500;
 	int interp_steps = 100; // at which step should reach the goal
 
 	int init_shoulder_pitch = init_pose_value[1];
@@ -114,10 +116,15 @@ int main()
 	int goal_shoulder_row = init_pose_value[3];
 	int goal_elbow = init_pose_value[5] + 512;
 
+	static struct timespec next_time;
+    clock_gettime(CLOCK_MONOTONIC,&next_time);
+	int initial_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
+
 	while(num_steps < max_steps)
 	{
 	    double cur_shoulder_pitch_angle, cur_shoulder_row_angle, cur_elbow_angle;
 	    double goals[3];
+	    int gyro_x, gyro_y, gyro_z, accel_x, accel_y, accel_z;
 
 		if(cm730.ReadWord(JointData::ID_L_SHOULDER_PITCH, MX28::P_PRESENT_POSITION_L, &value, 0) == CM730::SUCCESS)
 		{
@@ -132,7 +139,7 @@ int main()
             }
 
 		    //printf("Goal of pitch %d \n", goal);
-		    goals[0] = goal;
+		    goals[0] = MX28::Value2Angle(goal);
 			cm730.WriteWord(JointData::ID_L_SHOULDER_PITCH, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
 		else {
@@ -153,7 +160,7 @@ int main()
             }
 
 		    //printf("Goal of roll %d \n", goal);
-		    goals[1] = goals;
+		    goals[1] = MX28::Value2Angle(goal);
 			cm730.WriteWord(JointData::ID_L_SHOULDER_ROLL, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
 		else {
@@ -174,7 +181,7 @@ int main()
             }
 
 		    //printf("Goal of elbow %d \n", goal);
-		    goals[2] = goal;
+		    goals[2] = MX28::Value2Angle(goal);
 			cm730.WriteWord(JointData::ID_L_ELBOW, MX28::P_GOAL_POSITION_L, goal, 0);
 		}
 		else {
@@ -182,16 +189,50 @@ int main()
 			return 1;
 		}
 
+		if(cm730.ReadWord(CM730::ID_CM, CM730::P_GYRO_X_L, &gyro_x, 0) != CM730::SUCCESS) {
+		    printf("Can't read gyro x");
+			return 1;
+		}
+
+		if(cm730.ReadWord(CM730::ID_CM, CM730::P_GYRO_Y_L, &gyro_y, 0) != CM730::SUCCESS) {
+		    printf("Can't read gyro y");
+			return 1;
+		}
+
+		if(cm730.ReadWord(CM730::ID_CM, CM730::P_GYRO_Z_L, &gyro_z, 0) != CM730::SUCCESS) {
+		    printf("Can't read gyro z");
+			return 1;
+		}
+
+        if(cm730.ReadWord(CM730::ID_CM, CM730::P_ACCEL_X_L, &accel_x, 0) != CM730::SUCCESS) {
+		    printf("Can't read accel x");
+			return 1;
+		}
+
+		if(cm730.ReadWord(CM730::ID_CM, CM730::P_ACCEL_Y_L, &accel_y, 0) != CM730::SUCCESS) {
+		    printf("Can't read accel y");
+			return 1;
+		}
+
+		if(cm730.ReadWord(CM730::ID_CM, CM730::P_ACCEL_Z_L, &accel_z, 0) != CM730::SUCCESS) {
+		    printf("Can't read accel z");
+			return 1;
+		}
+
+
         static struct timespec next_time;
         clock_gettime(CLOCK_MONOTONIC,&next_time);
-        int current_time = next_time.tv_sec * 1000 + next_time.tv_nsec / 1000000.0; // convert to ms
+        int current_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
+        int current_time = current_time_microsec / 1000;
 
 		fileStream << angle2rad(cur_shoulder_pitch_angle) << " " << angle2rad(cur_shoulder_row_angle) << " " << angle2rad(cur_elbow_angle)
-		           << goals[0] << " " << goals[1] << " " << goals[2] << " " << current_time << std::endl;
+		           << " " << angle2rad(goals[0]) << " " << angle2rad(goals[1]) << " " << angle2rad(goals[2]) << " "
+		           << gyro_x << " " << gyro_y << " " << gyro_z << " " << accel_x << " " << accel_y << " " << accel_z << " " << current_time << std::endl;
 
 		num_steps ++;
 
-		usleep(20000);
+		usleep(30000 - (current_time_microsec - initial_time_microsec));
+		initial_time_microsec = current_time_microsec;
 	}
 
 	fileStream.close();
