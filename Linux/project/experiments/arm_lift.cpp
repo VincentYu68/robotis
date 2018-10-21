@@ -191,17 +191,17 @@ int main()
 
 
         // get gyro and accelerometer infor
-        cm730.BulkRead();
+        /*cm730.BulkRead();
 
         gyro_x = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_X_L);
         gyro_y = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_Y_L);
         gyro_z = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_Z_L);
         accel_x = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_X_L);
         accel_y = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_Y_L);
-        accel_z = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_Z_L);
+        accel_z = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_Z_L);*/
 
 
-		/*if(cm730.ReadWord(CM730::ID_CM, CM730::P_GYRO_X_L, &gyro_x, 0) != CM730::SUCCESS) {
+		if(cm730.ReadWord(CM730::ID_CM, CM730::P_GYRO_X_L, &gyro_x, 0) != CM730::SUCCESS) {
 		    printf("Can't read gyro x");
 			return 1;
 		}
@@ -229,7 +229,7 @@ int main()
 		if(cm730.ReadWord(CM730::ID_CM, CM730::P_ACCEL_Z_L, &accel_z, 0) != CM730::SUCCESS) {
 		    printf("Can't read accel z");
 			return 1;
-		}*/
+		}
 
 
         static struct timespec next_time;
