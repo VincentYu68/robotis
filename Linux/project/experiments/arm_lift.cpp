@@ -193,12 +193,12 @@ int main()
         // get gyro and accelerometer infor
         cm730.BulkRead();
 
-        gyro_x = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_X_L)
-        gyro_y = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_Y_L)
-        gyro_z = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_Z_L)
-        accel_x = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_X_L)
-        accel_y = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_Y_L)
-        accel_z = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_Z_L)
+        gyro_x = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_X_L);
+        gyro_y = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_Y_L);
+        gyro_z = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_GYRO_Z_L);
+        accel_x = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_X_L);
+        accel_y = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_Y_L);
+        accel_z = cm730.m_BulkReadData[CM730::ID_CM].ReadWord(CM730::P_ACCEL_Z_L);
 
 
 		/*if(cm730.ReadWord(CM730::ID_CM, CM730::P_GYRO_X_L, &gyro_x, 0) != CM730::SUCCESS) {
@@ -242,8 +242,9 @@ int main()
 		           << gyro_x << " " << gyro_y << " " << gyro_z << " " << accel_x << " " << accel_y << " " << accel_z << " " << current_time << std::endl;
 
 		num_steps ++;
-
-		usleep(30000 - (current_time_microsec - initial_time_microsec));
+        wait_time = 30000 - (current_time_microsec - initial_time_microsec);
+        if (wait_time > 0)
+		    usleep(wait_time);
 		initial_time_microsec = current_time_microsec;
 	}
 
