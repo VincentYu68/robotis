@@ -402,7 +402,7 @@ void CM730::MakeBulkReadPacket()
         number++;
     }
 
-    for(int id = 1; id < JointData::NUMBER_OF_JOINTS; id++)
+    /*for(int id = 1; id < JointData::NUMBER_OF_JOINTS; id++)
     {
         if(MotionStatus::m_CurrentJoints.GetEnable(id))
         {
@@ -411,7 +411,7 @@ void CM730::MakeBulkReadPacket()
             m_BulkReadTxPacket[PARAMETER+3*number+3] = MX28::P_PRESENT_POSITION_L; // start address
             number++;
         }
-    }
+    }*/
 
     if(Ping(FSR::ID_L_FSR, 0) == SUCCESS)
     {
