@@ -242,7 +242,7 @@ int main()
 		           << gyro_x << " " << gyro_y << " " << gyro_z << " " << accel_x << " " << accel_y << " " << accel_z << " " << current_time << std::endl;
 
 		num_steps ++;
-        wait_time = 30000 - (current_time_microsec - initial_time_microsec);
+        int wait_time = 30000 - (current_time_microsec - initial_time_microsec);
         if (wait_time > 0)
 		    usleep(wait_time);
 		initial_time_microsec = current_time_microsec;
