@@ -138,7 +138,7 @@ int main()
 		    cur_elbow_angle = MX28::Value2Angle(value);
 
 		    if (elbow_goal > 3100 or elbow_goal < 1300) {
-                printf("Goal pose for elbow wrong! %d, %d \n", goal_elbow, init_elbow);
+                printf("Goal pose for elbow wrong! %d, %d \n", elbow_goal);
                 return 1;
             }
 
