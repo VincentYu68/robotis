@@ -58,8 +58,7 @@ int main()
 
     for (int i = 0; i < 20; i++)
         printf("%f,%d,%d\n",init_pose_angle[i], init_pose_value[i], starting_value[i]);
-    if (DEBUG_FIRST)
-        return 0;
+
 	int param[JointData::NUMBER_OF_JOINTS * MX28::PARAM_BYTES];
 
     for (int i = 0; i < 100; i++) {
@@ -90,8 +89,7 @@ int main()
             cm730.SyncWrite(MX28::P_D_GAIN, MX28::PARAM_BYTES, joint_num, param);
     }
 
-    if (DEBUG_SECOND)
-        return 0;
+
     ///////////////////////////////////////////////////////////////////////
 
 
