@@ -92,14 +92,6 @@ int main()
 
     ///////////////////////////////////////////////////////////////////////
 
-
-    std::ofstream fileStream;
-    char fname[32] = {0,};
-    sprintf(fname, "data.txt");
-    fileStream.open(fname, std::ios::out);
-
-
-
     std::ifstream configStream;
     char fname2[32] = {0,};
     int signal_cycle; // in ms
@@ -108,6 +100,12 @@ int main()
     configStream.open(fname2, std::ios::in);
     configStream >> signal_cycle >> signal_magnitude;
     configStream.close();
+    printf("experiment configs: %d, %d\n", signal_cycle, signal_magnitude)
+
+    std::ofstream fileStream;
+    char fname[32] = {0,};
+    sprintf(fname, "data_%d_%d.txt", signal_cycle, signal_magnitude);
+    fileStream.open(fname, std::ios::out);
 
 	int value;
 
