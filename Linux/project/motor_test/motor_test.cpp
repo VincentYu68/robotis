@@ -120,7 +120,7 @@ int main()
 	while(num_steps < max_steps)
 	{
 	    double cur_elbow_angle;
-	    int elbow_goal = init_pose_value[2];
+	    int elbow_goal = init_pose_value[5];
 	    double elbow_goal_rad;
 
 	    static struct timespec next_time;
@@ -129,7 +129,7 @@ int main()
         int current_time = current_time_microsec / 1000; // in ms
 
         if ((current_time / signal_cycle) % 2 == 1) {
-            elbow_goal = signal_magnitude + init_pose_value[2];
+            elbow_goal = signal_magnitude + init_pose_value[5];
         }
 
 	    if(cm730.ReadWord(JointData::ID_L_ELBOW, MX28::P_PRESENT_POSITION_L, &value, 0) == CM730::SUCCESS)
