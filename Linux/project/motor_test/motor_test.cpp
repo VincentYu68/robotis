@@ -152,14 +152,14 @@ int main()
 
 
         clock_gettime(CLOCK_MONOTONIC,&next_time);
-        current_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0 - prev_time_micrsec; // convert to microsecond
+        current_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
         current_time = current_time_microsec / 1000;
 
 		fileStream << angle2rad(cur_elbow_angle) << " " << angle2rad(elbow_goal_rad) << current_time << std::endl;
 
 		num_steps ++;
-        int wait_time = 50000 - (current_time_microsec);
-        //printf("wait %d ms\n", wait_time)
+        int wait_time = 50000 - (current_time_microsec - prev_time_micrsec);
+        //printf("wait %d ms\n", wait_time);
         if (wait_time >= 0)
 		    usleep(wait_time);
 		prev_time_micrsec = current_time_microsec;
