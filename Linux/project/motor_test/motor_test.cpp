@@ -110,12 +110,13 @@ int main()
 	int value;
 
 	int num_steps = 0;
-	int max_steps = 500;
+	int max_steps = 200;
 
 	static struct timespec next_time;
     clock_gettime(CLOCK_MONOTONIC,&next_time);
 	int initial_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
 	int prev_time_micrsec = initial_time_microsec;
+	int initial_time_ms = initial_time_microsec / 1000;
 
 	while(num_steps < max_steps)
 	{
@@ -155,7 +156,7 @@ int main()
         current_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
         current_time = current_time_microsec / 1000;
 
-		fileStream << angle2rad(cur_elbow_angle) << " " << angle2rad(elbow_goal_rad) << current_time << std::endl;
+		fileStream << angle2rad(cur_elbow_angle) << " " << angle2rad(elbow_goal_rad) << " " << current_time - initial_time_ms << std::endl;
 
 		num_steps ++;
         int wait_time = 50000 - (current_time_microsec - prev_time_micrsec);
