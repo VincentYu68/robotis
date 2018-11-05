@@ -36,4 +36,4 @@ $(TARGET): $(OBJS) ../../lib/darwin.a
 # useful to make a backup "make tgz"
 tgz: clean
 	mkdir -p backups
-	tar czvf ./backups/walk_tuner_`date +"%Y_%m_%d_%H.%M.%S"`.tgz --exclude backups *
+	tar czvf ./backups/arm_lift_`date +"%Y_%m_%d_%H.%M.%S"`.tgz --exclude backups *
