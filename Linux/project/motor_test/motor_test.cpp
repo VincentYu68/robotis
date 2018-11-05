@@ -121,7 +121,7 @@ int main()
 	while(num_steps < max_steps)
 	{
 	    double cur_elbow_angle;
-	    int elbow_goal;
+	    int elbow_goal = init_pose_value[2];
 	    double elbow_goal_rad;
 
 	    static struct timespec next_time;
@@ -138,7 +138,7 @@ int main()
 		    cur_elbow_angle = MX28::Value2Angle(value);
 
 		    if (elbow_goal > 3100 or elbow_goal < 1300) {
-                printf("Goal pose for elbow wrong! %d, %d \n", elbow_goal);
+                printf("Goal pose for elbow wrong! %d \n", elbow_goal);
                 return 1;
             }
 
