@@ -100,7 +100,7 @@ int main()
     configStream.open(fname2, std::ios::in);
     configStream >> signal_cycle >> signal_magnitude;
     configStream.close();
-    printf("experiment configs: %d, %d\n", signal_cycle, signal_magnitude)
+    printf("experiment configs: %d, %d\n", signal_cycle, signal_magnitude);
 
     std::ofstream fileStream;
     char fname[32] = {0,};
@@ -115,6 +115,7 @@ int main()
 	static struct timespec next_time;
     clock_gettime(CLOCK_MONOTONIC,&next_time);
 	int initial_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
+	int prev_time_micrsec = initial_time_microsec;
 
 	while(num_steps < max_steps)
 	{
@@ -151,7 +152,7 @@ int main()
 
 
         clock_gettime(CLOCK_MONOTONIC,&next_time);
-        current_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0 - initial_time_microsec; // convert to microsecond
+        current_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0 - prev_time_micrsec; // convert to microsecond
         current_time = current_time_microsec / 1000;
 
 		fileStream << angle2rad(cur_elbow_angle) << " " << angle2rad(elbow_goal_rad) << current_time << std::endl;
@@ -159,9 +160,9 @@ int main()
 		num_steps ++;
         int wait_time = 50000 - (current_time_microsec);
         //printf("wait %d ms\n", wait_time)
-        if (wait_time > 0)
+        if (wait_time >= 0)
 		    usleep(wait_time);
-		initial_time_microsec = current_time_microsec;
+		prev_time_micrsec = current_time_microsec;
 	}
 
 	fileStream.close();
