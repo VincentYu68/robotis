@@ -159,7 +159,8 @@ int main()
 		fileStream << angle2rad(cur_elbow_angle) << " " << angle2rad(elbow_goal_rad) << current_time << std::endl;
 
 		num_steps ++;
-        int wait_time = 50000 - (current_time_microsec - initial_time_microsec);
+        int wait_time = 50000 - (current_time_microsec);
+        //printf("wait %d ms\n", wait_time)
         if (wait_time > 0)
 		    usleep(wait_time);
 		initial_time_microsec = current_time_microsec;
