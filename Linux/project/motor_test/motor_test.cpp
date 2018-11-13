@@ -73,7 +73,7 @@ int main()
             }
             param[n++] = id;
 
-            param[n++] = 0;
+            param[n++] = 8;
             param[n++] = 0;
             param[n++] = 32;
             param[n++] = 0;
