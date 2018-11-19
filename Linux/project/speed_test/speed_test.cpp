@@ -22,7 +22,7 @@ double rad2angle(double rad) {
 
 int main()
 {
-	printf( "\n===== Test DARwIn Armlifting =====\n\n");
+	printf( "\n===== Test DARwIn Speed Test =====\n\n");
 
 	//////////////////// Framework Initialize ////////////////////////////
 	LinuxCM730 linux_cm730("/dev/ttyUSB0");
@@ -32,7 +32,6 @@ int main()
 		printf("Fail to connect CM-730!\n");
 		return 0;
 	}
-	cm730.SetBaud(3);
 	/////////////////////////////////////////////////////////////////////
 
     ///////////////////// Initialize the Pose of Darwin /////////////////
