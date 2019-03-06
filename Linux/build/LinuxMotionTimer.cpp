@@ -32,11 +32,11 @@ void *LinuxMotionTimer::TimerProc(void *param)
     while(!timer->m_FinishTimer)
     {
         if (prev_time == -1)
-            prev_time = time();
+            prev_time = time(NULL);
         else
         {
-            v = time() - prev_time;
-            prev_time = time();
+            v = time(NULL) - prev_time;
+            prev_time = time(NULL);
             interv[count] = v;
             count += 1;
             if (count >= 50) {
