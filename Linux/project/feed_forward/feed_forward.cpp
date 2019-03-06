@@ -39,7 +39,7 @@ int main()
     std::vector<std::vector<int> > feedforward_data;
     std::ifstream dataStream;
     int data;
-    dataStream.open('feedforward_target_hwindex.txt', std::ios::in);
+    dataStream.open('../walk_tuner/Log/Log0.txt', std::ios::in);
     while (!dataStream.eof()) {
         feedforward_data.push_back(std::vector<int>());
         for (int i = 0; i < 20; i++) {
@@ -70,7 +70,7 @@ int main()
 		}
     }
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < feedforward_data.size(); i++) {
         int n = 0;
         int joint_num = 0;
         for(int id=JointData::ID_R_SHOULDER_PITCH; id<JointData::NUMBER_OF_JOINTS; id++)
@@ -82,7 +82,7 @@ int main()
             }
             param[n++] = id;
 
-            param[n++] = 8;
+            param[n++] = 16;
             param[n++] = 0;
             param[n++] = 32;
             param[n++] = 0;
@@ -113,7 +113,7 @@ int main()
             }
             param[n++] = id;
 
-            param[n++] = 8;
+            param[n++] = 16;
             param[n++] = 0;
             param[n++] = 32;
             param[n++] = 0;
@@ -132,7 +132,7 @@ int main()
         current_time = current_time_microsec / 1000;
 
 		num_steps ++;
-        int wait_time = 50000 - (current_time_microsec - prev_time_micrsec);
+        int wait_time = 30000 - (current_time_microsec - prev_time_micrsec);
         //printf("wait %d ms\n", wait_time);
         if (wait_time >= 0)
 		    usleep(wait_time);
