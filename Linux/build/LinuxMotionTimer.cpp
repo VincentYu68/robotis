@@ -26,10 +26,11 @@ void *LinuxMotionTimer::TimerProc(void *param)
     static struct timespec next_time;
     clock_gettime(CLOCK_MONOTONIC,&next_time);
 
+    int init_tvsec = next_time.tv_nsec;
     while(!timer->m_FinishTimer)
     {
         float nt = float(next_time.tv_sec) + float(next_time.tv_nsec) / 1000000000.0;
-        std::cout<<next_time.tv_sec<<std::endl;
+        std::cout<<next_time.tv_sec - init_tvsec<<std::endl;
         next_time.tv_sec += (next_time.tv_nsec + MotionModule::TIME_UNIT * 1000000) / 1000000000;
         next_time.tv_nsec = (next_time.tv_nsec + MotionModule::TIME_UNIT * 1000000) % 1000000000;
 
