@@ -70,6 +70,8 @@ int main()
 		}
     }
 
+    int param[JointData::NUMBER_OF_JOINTS * MX28::PARAM_BYTES];
+
     for (int i = 0; i < feedforward_data.size(); i++) {
         int n = 0;
         int joint_num = 0;
@@ -100,6 +102,8 @@ int main()
 
 
     ///////////////////////////////////////////////////////////////////////
+    int num_steps = 0;
+    static struct timespec next_time;
     clock_gettime(CLOCK_MONOTONIC,&next_time);
     prev_time_micrsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
 	for (int i = 0; i < feedforward_data.size(); i++)
@@ -131,7 +135,6 @@ int main()
 
         clock_gettime(CLOCK_MONOTONIC,&next_time);
         current_time_microsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
-        current_time = current_time_microsec / 1000;
 
 		num_steps ++;
         int wait_time = 30000 - (current_time_microsec - prev_time_micrsec);
