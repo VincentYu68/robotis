@@ -54,7 +54,6 @@ int main(int argc, char *argv[])
         printf("Fail to initialize Motion Manager!\n");
         return 0;
     }
-    //MotionManager::GetInstance()->DEBUG_PRINT = true;
     MotionManager::GetInstance()->LoadINISettings(ini);
     Walking::GetInstance()->LoadINISettings(ini);
 
