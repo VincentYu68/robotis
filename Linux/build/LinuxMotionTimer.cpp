@@ -35,7 +35,7 @@ void *LinuxMotionTimer::TimerProc(void *param)
             prev_time = time(NULL);
         else
         {
-            v = time(NULL) - prev_time;
+            time_t v = time(NULL) - prev_time;
             prev_time = time(NULL);
             interv[count] = v;
             count += 1;
