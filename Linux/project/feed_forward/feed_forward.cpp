@@ -39,7 +39,7 @@ int main()
     std::vector<std::vector<int> > feedforward_data;
     std::ifstream dataStream;
     int data;
-    dataStream.open('../walk_tuner/Log/Log0.txt', std::ios::in);
+    dataStream.open('Log0.txt', std::ios::in);
     while (!dataStream.eof()) {
         feedforward_data.push_back(std::vector<int>());
         for (int i = 0; i < 20; i++) {
