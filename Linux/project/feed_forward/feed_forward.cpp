@@ -139,7 +139,7 @@ int main()
 		prev_time_micrsec = current_time_microsec;
 	}
 
-	fileStream.close();
+	dataStream.close();
 
 	return 0;
 }
