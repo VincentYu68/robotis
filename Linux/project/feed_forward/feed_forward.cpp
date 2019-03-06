@@ -105,7 +105,8 @@ int main()
     int num_steps = 0;
     static struct timespec next_time;
     clock_gettime(CLOCK_MONOTONIC,&next_time);
-    prev_time_micrsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
+    int prev_time_micrsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
+    int current_time_microsec = 0;
 	for (int i = 0; i < feedforward_data.size(); i++)
 	{
 	    int n = 0;
