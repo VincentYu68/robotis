@@ -29,7 +29,7 @@ void *LinuxMotionTimer::TimerProc(void *param)
     while(!timer->m_FinishTimer)
     {
         float nt = float(next_time.tv_sec) + float(next_time.tv_nsec) / 1000000000.0;
-        printf("nex time %f\n", nt);
+        std::cout<<nt<<std::endl;
         next_time.tv_sec += (next_time.tv_nsec + MotionModule::TIME_UNIT * 1000000) / 1000000000;
         next_time.tv_nsec = (next_time.tv_nsec + MotionModule::TIME_UNIT * 1000000) % 1000000000;
 
