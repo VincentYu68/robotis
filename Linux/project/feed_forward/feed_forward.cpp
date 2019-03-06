@@ -40,7 +40,7 @@ int main()
     std::ifstream dataStream;
     int data;
     char fname2[32] = {0,};
-    sprintf(fname2, '../walk_tuner/Log/Log0.txt');
+    sprintf(fname2, "../walk_tuner/Log/Log0.txt");
     dataStream.open(fname2, std::ios::in);
     while (!dataStream.eof()) {
         feedforward_data.push_back(std::vector<int>());
