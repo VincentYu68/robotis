@@ -28,6 +28,7 @@ void *LinuxMotionTimer::TimerProc(void *param)
 
     while(!timer->m_FinishTimer)
     {
+        printf("nex time %f\n", next_time.tv_nsec);
         next_time.tv_sec += (next_time.tv_nsec + MotionModule::TIME_UNIT * 1000000) / 1000000000;
         next_time.tv_nsec = (next_time.tv_nsec + MotionModule::TIME_UNIT * 1000000) % 1000000000;
 
