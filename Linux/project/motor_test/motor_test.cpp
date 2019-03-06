@@ -33,6 +33,7 @@ int main()
 		return 0;
 	}
 	cm730.SetBaud(3);
+	cm730.WriteWord(CM730::ID_CM, CM730::P_BAUD_RATE, 3, 0);
 	/////////////////////////////////////////////////////////////////////
 
     ///////////////////// Initialize the Pose of Darwin /////////////////
