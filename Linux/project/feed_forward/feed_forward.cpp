@@ -40,7 +40,7 @@ int main()
     std::ifstream dataStream;
     int data;
     char fname2[32] = {0,};
-    sprintf(fname2, "../walk_tuner/Log/Log0.txt");
+    sprintf(fname2, "../walk_tuner/Logs/Log0.txt");
     dataStream.open(fname2, std::ios::in);
     while (!dataStream.eof()) {
         feedforward_data.push_back(std::vector<int>());
@@ -74,7 +74,7 @@ int main()
 
     int param[JointData::NUMBER_OF_JOINTS * MX28::PARAM_BYTES];
 
-    for (int i = 0; i < feedforward_data.size(); i++) {
+    for (int i = 0; i < 100; i++) {
         int n = 0;
         int joint_num = 0;
         for(int id=JointData::ID_R_SHOULDER_PITCH; id<JointData::NUMBER_OF_JOINTS; id++)
