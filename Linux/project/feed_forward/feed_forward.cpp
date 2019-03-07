@@ -109,14 +109,14 @@ int main()
     clock_gettime(CLOCK_MONOTONIC,&next_time);
     int prev_time_micrsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
     int current_time_microsec = 0;
-	for (int i = 0; i < feedforward_data.size(); i++)
+	for (int i = 0; i < feedforward_data.size()-10; i++)
 	{
 	    int n = 0;
         int joint_num = 0;
         for(int id=JointData::ID_R_SHOULDER_PITCH; id<JointData::NUMBER_OF_JOINTS; id++)
         {
-            int goal_pos = feedforward_data[i][id];
-            if (goal_pos > 4095 or goal_pos < 0) {
+            int goal_pos = feedforward_data[i][id-JointData::ID_R_SHOULDER_PITCH];
+            if (goal_pos > 3900 or goal_pos < 100) {
                 printf("Goal pose for %d wrong!\n", id);
                 return 1;
             }
@@ -144,7 +144,9 @@ int main()
         //printf("wait %d ms\n", wait_time);
         if (wait_time >= 0)
 		    usleep(wait_time);
-		prev_time_micrsec = current_time_microsec;
+
+		clock_gettime(CLOCK_MONOTONIC,&next_time);
+        prev_time_micrsec = next_time.tv_sec * 1000000 + next_time.tv_nsec / 1000.0; // convert to microsecond
 	}
 
 	dataStream.close();
